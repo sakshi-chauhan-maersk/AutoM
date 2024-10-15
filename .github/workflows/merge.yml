@@ -1,0 +1,28 @@
+name: Auto merge updated to dev
+
+on:
+  push:
+    branches:
+      - updated
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+      
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Merge updated to dev
+        run: |
+          git checkout dev
+          git merge updated
+          git push origin dev
